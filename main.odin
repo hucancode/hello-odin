@@ -13,24 +13,28 @@ camera := rl.Camera3D {
 }
 
 main :: proc() {
-	rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello Odin!")
-	defer rl.CloseWindow()
-	init_game()
-	rl.SetTargetFPS(60)
-	for !rl.WindowShouldClose() { 	// Detect window close button or ESC key
-		update_game()
-		draw_game()
+	init()
+	defer deinit()
+	for !rl.WindowShouldClose() {
+		update()
+		draw()
 	}
 }
 
-init_game :: proc() {
+init :: proc() {
+	rl.InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Hello Odin!")
+	rl.SetTargetFPS(60)
 }
 
-update_game :: proc() {
+deinit :: proc() {
+	rl.CloseWindow()
+}
+
+update :: proc() {
 	rl.UpdateCamera(&camera, rl.CameraMode.ORBITAL)
 }
 
-draw_game :: proc() {
+draw :: proc() {
 	rl.BeginDrawing()
 	defer rl.EndDrawing()
 	rl.ClearBackground(rl.RAYWHITE)
